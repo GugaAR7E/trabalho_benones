@@ -1,20 +1,20 @@
 let editandoId = null;
 
-async function carregarVendas() {
-    const response = await fetch('http://localhost:3000/vendaCombustivel');
-    const vendas = await response.json();
+async function carregarCompras() {
+    const response = await fetch('http://localhost:3000/compraCarrinho');
+    const compra = await response.json();
 
-    let html = '<table><tr><th>ID</th><th>Tipo de Combustível</th><th>Preço</th><th>Volume Abastecido</th><th>Data Abastecimento</th><th>Ação</th></tr>';
+    let html = '<table border="1"><tr><th>id</th><th>Roupa</th><th>Preço</th><th>Quantidade de Peças</th><th>Data da Compra</th></tr>';
 
-    vendas.forEach(venda => {
-        const data = venda.data_abastecimento.split('T')[0];
-        html += `<tr id="venda-${venda.id}">
-        <td>${venda.id}</td>
-        <td id="c-${venda.id}-0">${venda.tipo_combustivel}</td>
-        <td id="c-${venda.id}-1">${venda.preco}</td>
-        <td id="c-${venda.id}-2">${venda.volume_abastecido}</td>
-        <td id="c-${venda.id}-3" data-val="${data}">${data}</td>
-        <td><button class="btn-editar" onclick="editarVenda(${venda.id})">✏️</button></td>
+    compra.forEach(compra => {
+        const data = compra.data_compra.split('T')[0];
+        html += `<tr id="venda-${compra.id}">
+        <td>${compra.id}</td>
+        <td id="c-${compra.id}-0">${compra.roupa}</td>
+        <td id="c-${compra.id}-1">${compra.preco}</td>
+        <td id="c-${compra.id}-2">${compra.quantidade}</td>
+        <td id="c-${compra.id}-3" data-val="${data}">${data}</td>
+        <td><button class="btn-editar" onclick="editarVenda(${compra.id})">✏️</button></td>
         </tr>`;
     });
 
@@ -36,20 +36,20 @@ function editarVenda(id) {
 }
 
 async function salvarVenda(id) {
-    const response = await fetch(`http://localhost:3000/vendaCombustivel/${id}`, {
+    const response = await fetch(`http://localhost:3000/compraCarrinho/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             roupa: document.getElementById(`i-${id}-0`).value,
             preco: document.getElementById(`i-${id}-1`).value,
-            volume_abastecido: document.getElementById(`i-${id}-2`).value,
-            data_abastecimento: document.getElementById(`i-${id}-3`).value
+            quantidade: document.getElementById(`i-${id}-2`).value,
+            data_compra: document.getElementById(`i-${id}-3`).value
         })
     });
 
     if (response.ok) {
         editandoId = null;
-        carregarVendas();
+        carregarCompras();
     } else {
         alert('Erro ao atualizar!');
     }
@@ -57,7 +57,7 @@ async function salvarVenda(id) {
 
 function cancelarEdicao() {
     editandoId = null;
-    carregarVendas();
+    carregarCompras();
 }
 
-window.onload = carregarVendas;
+window.onload = carregarCompras;

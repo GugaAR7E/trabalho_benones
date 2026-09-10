@@ -3,13 +3,13 @@ document.getElementById('formAdicioneCarrinho').addEventListener('submit', async
 
     const roupa = document.getElementById('roupa').value;
     const preco = document.getElementById('preco').value;
-    const volume_abastecido = document.getElementById('volume_abastecido').value;
-    const data_abastecimento = document.getElementById('data_abastecimento').value;
+    const quantidade = document.getElementById('quantidade').value;
+    const data_compra = document.getElementById('data_compra').value;
 
-    const response = await fetch('http://localhost:3000/vendaCombustivel', {
+    const response = await fetch('http://localhost:3000/compraCarrinho', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ roupa, preco, volume_abastecido, data_abastecimento })
+        body: JSON.stringify({ roupa, preco, quantidade, data_compra })
     });
 
     const data = await response.json();

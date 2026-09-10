@@ -1,12 +1,14 @@
-USE alunos_21c_2026;
+USE alunos_gustavopereira;
 
-CREATE TABLE postos_de_gasolina (
+
+CREATE TABLE adicione_ao_carrinho (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    tipo_combustivel VARCHAR(50) NOT NULL,
+    roupa VARCHAR(50) NOT NULL,
     preco DECIMAL(10, 2) NOT NULL,
-    volume_abastecido DECIMAL(10, 2) NOT NULL,
-    data_abastecimento DATE
+    quantidade DECIMAL(10, 2) NOT NULL,
+    data_compra DATE
 );
 
-USE api_crud;
-SELECT * FROM postos_de_gasolina;
+
+SELECT * FROM adicione_ao_carrinho;
+

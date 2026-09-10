@@ -9,12 +9,12 @@ app.use(express.json());
 app.use(express.static('.'));
 
 // Criar vendas de combustível
-app.post('/vendaCombustivel', (req, res) => {
-    const { tipo_combustivel, preco, volume_abastecido, data_abastecimento } = req.body;
+app.post('/compraCarrinho', (req, res) => {
+    const { roupa, preco, quantidade, data_compra } = req.body;
 
-    const codigoDoMySQL = 'INSERT INTO postos_de_gasolina (tipo_combustivel, preco, volume_abastecido, data_abastecimento) VALUES (?, ?, ?, ?)';
+    const codigoDoMySQL = 'INSERT INTO adicione_ao_carrinho (roupa, preco, quantidade, data_compra) VALUES (?, ?, ?, ?)';
 
-    acessaBancoNoServidor.query(codigoDoMySQL, [tipo_combustivel, preco, volume_abastecido, data_abastecimento], (err, results) => {
+    acessaBancoNoServidor.query(codigoDoMySQL, [roupa, preco, quantidade, data_compra], (err, results) => {
         if (err) {
             return res.json({ error: 'Erro ao cadastrar' });
         }
@@ -23,8 +23,8 @@ app.post('/vendaCombustivel', (req, res) => {
 });
 
 // Listar vendas de combustível
-app.get('/vendaCombustivel', (req, res) => {
-    const codigoDoMySQL = 'SELECT * FROM postos_de_gasolina';
+app.get('/compraCarrinho', (req, res) => {
+    const codigoDoMySQL = 'SELECT * FROM adicione_ao_carrinho';
 
     acessaBancoNoServidor.query(codigoDoMySQL, (err, results) => {
         if (err) {
@@ -35,40 +35,40 @@ app.get('/vendaCombustivel', (req, res) => {
 });
 
 // Deletar venda de combustível
-app.delete('/vendaCombustivel/:id', (req, res) => {
+app.delete('/compraCarrinho/:id', (req, res) => {
     const id = req.params.id;
-    const codigoDoMySQL = 'DELETE FROM postos_de_gasolina WHERE id = ?';
+    const codigoDoMySQL = 'DELETE FROM adicione_ao_carrinho WHERE id = ?';
 
     acessaBancoNoServidor.query(codigoDoMySQL, [id], (err, result) => {
         if (err) {
-            return res.status(500).json({ error: 'Erro ao deletar venda' });
+            return res.status(500).json({ error: 'Erro ao deletar compra' });
         }
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Venda não encontrada' });
+            return res.status(404).json({ error: 'Compra não encontrada' });
         }
 
-        res.json({ message: 'Venda excluída com sucesso!' });
+        res.json({ message: 'Compra retirada com sucesso!' });
     });
 });
 
 // Atualizar venda de combustível
-app.put('/vendaCombustivel/:id', (req, res) => {
+app.put('/compraCarrinho/:id', (req, res) => {
     const id = req.params.id;
-    const { tipo_combustivel, preco, volume_abastecido, data_abastecimento } = req.body;
+    const { roupa, preco, quantidade, data_compra } = req.body;
 
-    const codigoDoMySQL = 'UPDATE postos_de_gasolina SET tipo_combustivel = ?, preco = ?, volume_abastecido = ?, data_abastecimento = ? WHERE id = ?';
+    const codigoDoMySQL = 'UPDATE adicione_ao_carrinho SET roupa = ?, preco = ?, quantidade = ?, data_compra = ? WHERE id = ?';
 
-    acessaBancoNoServidor.query(codigoDoMySQL, [tipo_combustivel, preco, volume_abastecido, data_abastecimento, id], (err, result) => {
+    acessaBancoNoServidor.query(codigoDoMySQL, [roupa, preco, quantidade, data_compra, id], (err, result) => {
         if (err) {
-            return res.status(500).json({ error: 'Erro ao atualizar venda' });
+            return res.status(500).json({ error: 'Erro ao atualizar carrinho' });
         }
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Venda não encontrada' });
+            return res.status(404).json({ error: 'Roupa não encontrada' });
         }
 
-        res.json({ message: 'Venda atualizada com sucesso!' });
+        res.json({ message: 'Carrinho atualizado com sucesso!' });
     });
 });
 

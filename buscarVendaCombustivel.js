@@ -1,16 +1,16 @@
 async function listarTodos() {
-    const buscaNoBancoDeDados = await fetch('http://localhost:3000/vendaCombustivel');
+    const buscaNoBancoDeDados = await fetch('http://localhost:3000/compraCarrinho');
     const respostaObtida = await buscaNoBancoDeDados.json();
     console.log(respostaObtida);
-    let html = '<table border="1"><tr><th>id</th><th>Roupa</th><th>Preço</th><th>Volume Abastecido</th><th>Data Abastecimento</th></tr>';
+    let html = '<table border="1"><tr><th>id</th><th>Roupa</th><th>Preço</th><th>Quantidade de Peças</th><th>Data da Compra</th></tr>';
 
-    respostaObtida.forEach(vendaCombustivel => {
+    respostaObtida.forEach(compraCarrinho => {
         html += `<tr>
-        <td>${vendaCombustivel.id}</td>
-        <td>${vendaCombustivel.roupa}</td>
-        <td>${vendaCombustivel.preco}</td>
-        <td>${vendaCombustivel.volume_abastecido}</td>
-        <td>${vendaCombustivel.data_abastecimento}</td>
+        <td>${compraCarrinho.id}</td>
+        <td>${compraCarrinho.roupa}</td>
+        <td>${compraCarrinho.preco}</td>
+        <td>${compraCarrinho.quantidade}</td>
+        <td>${compraCarrinho.data_compra}</td>
         </tr>`;
     });
 

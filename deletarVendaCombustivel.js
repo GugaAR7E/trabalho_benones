@@ -1,17 +1,17 @@
-async function carregarVendas() {
-    const response = await fetch('http://localhost:3000/vendaCombustivel');
-    const vendas = await response.json();
+async function carregarCompras() {
+    const response = await fetch('http://localhost:3000/compraCarrinho');
+    const compra = await response.json();
 
-    let html = '<table><tr><th>ID</th><th>Roupa</th><th>Preço</th><th>Volume Abastecido</th><th>Data Abastecimento</th><th>Ação</th></tr>';
+    let html = '<table border="1"><tr><th>id</th><th>Roupa</th><th>Preço</th><th>Quantidade de Peças</th><th>Data da Compra</th></tr>';
 
-    vendas.forEach(venda => {
-        html += `<tr id="venda-${venda.id}">
-        <td>${venda.id}</td>
-        <td>${venda.roupa}</td>
-        <td>${venda.preco}</td>
-        <td>${venda.volume_abastecido}</td>
-        <td>${venda.data_abastecimento}</td>
-        <td><button class="btn-deletar" onclick="deletarVenda(${venda.id})">🗑️</button></td>
+    compra.forEach(compra => {
+        html += `<tr id="venda-${compra.id}">
+        <td>${compra.id}</td>
+        <td>${compra.roupa}</td>
+        <td>${compra.preco}</td>
+        <td>${compra.quantidade}</td>
+        <td>${compra.data_compra}</td>
+        <td><button class="btn-deletar" onclick="deletarVenda(${compra.id})">🗑️</button></td>
         </tr>`;
     });
 
@@ -20,10 +20,10 @@ async function carregarVendas() {
 }
 
 async function deletarVenda(id) {
-    if (!confirm(`Excluir venda ID ${id}?`)) return;
+    if (!confirm(`Excluir compra ID ${id}?`)) return;
 
-    await fetch(`http://localhost:3000/vendaCombustivel/${id}`, { method: 'DELETE' });
+    await fetch(`http://localhost:3000/compraCarrinho/${id}`, { method: 'DELETE' });
     document.getElementById(`venda-${id}`).remove();
 }
 
-window.onload = carregarVendas;
+window.onload = carregarCompras;
